@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VartSlideStripView">
+        <attr name="showSeparator" format="dimension"/>
+        <attr name="separatorWidth" format="dimension" />
+        <attr name="separatorPadding" format="dimension" />
+        <attr name="separatorColor" format="reference" />
+        <attr name="stripHeight" format="dimension" />
+        <attr name="stripColor" format="reference" />
+        <attr name="stripMarginTop" format="dimension" />
+        <attr name="scaleTextSize" format="boolean" />
+        <attr name="commonTextSize" format="dimension" />
+        <attr name="maxTextSize" format="dimension" />
+        <attr name="stripWidthRatio" format="float" />
+        <attr name="alphaText" format="boolean" />
+        <attr name="initAlpha" format="float" />
+        <attr name="finalAlpha" format="float" />
+    </declare-styleable>
+</resources>
