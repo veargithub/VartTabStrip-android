@@ -1,4 +1,4 @@
-package com.vart.varttabstrip;
+package com.vart.tabstrip;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -114,7 +114,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		initTabsWidth();
 		final View currentTab = this.getChildAt(curTabIndex);
 		final int stripWidth = (int) (currentTab.getWidth() );
-		LinearLayout.LayoutParams currentTabLayoutParams = (LinearLayout.LayoutParams) currentTab.getLayoutParams();
+		LayoutParams currentTabLayoutParams = (LayoutParams) currentTab.getLayoutParams();
 		final int currentTabMarginRight = currentTabLayoutParams.rightMargin;
 		int nextTabMarginLeft = 0;
 		int widthDiff = 0;
@@ -122,7 +122,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		if (curTabIndex < this.getChildCount() - 1) {
 			nextTab = this.getChildAt(curTabIndex + 1);
 			widthDiff = nextTab.getWidth() - stripWidth;
-			LinearLayout.LayoutParams nextTabLayoutParams = (LinearLayout.LayoutParams) nextTab.getLayoutParams();
+			LayoutParams nextTabLayoutParams = (LayoutParams) nextTab.getLayoutParams();
 			nextTabMarginLeft = nextTabLayoutParams.leftMargin;
 
 		}

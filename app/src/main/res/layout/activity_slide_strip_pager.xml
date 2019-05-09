@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <com.vart.varttabstrip.VartSlideStripView
+    <com.vart.tabstrip.VartSlideStripView
         android:id="@+id/ssv1" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="test6"/>
-    </com.vart.varttabstrip.VartSlideStripView>
+    </com.vart.tabstrip.VartSlideStripView>
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"

@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.vart.tabstrip.VartSlideStripView;
+
 public class SlideStripPagerActivity extends FragmentActivity{
 	private ViewPager pager;
 	private VartSlideStripView ssv1;

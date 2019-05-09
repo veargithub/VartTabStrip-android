@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.vart.tabstrip.VartSlideStripView;
+
 /**
  * 作者: vart chen
  * 日期: 2019/5/8 13:28
