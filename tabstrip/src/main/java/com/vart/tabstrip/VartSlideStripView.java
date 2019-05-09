@@ -172,6 +172,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		//if (tabsWidth == null) {
 			int count = this.getChildCount();
 			//tabsWidth = new int[count];
+		if (this.pager == null) return;
 			for (int i = 0; i < count; i++) {
 				final int position = i;
 				View tab = this.getChildAt(i);
