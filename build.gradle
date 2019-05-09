@@ -3,7 +3,6 @@
 apply plugin: 'com.github.dcendents.android-maven' // 增加
 apply plugin: 'android-maven'
 apply plugin:'maven'
-//apply plugin: 'com.android.library'
 group='com.github.veargithub'
 
 buildscript {

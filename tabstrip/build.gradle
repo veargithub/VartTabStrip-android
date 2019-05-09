@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'com.github.dcendents.android-maven' // 增加
+apply plugin: 'android-maven'
+apply plugin:'maven'
+group='com.github.veargithub'
+
 android {
     compileSdkVersion 28
 
