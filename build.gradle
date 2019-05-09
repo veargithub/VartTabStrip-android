@@ -2,6 +2,8 @@
 
 apply plugin: 'com.github.dcendents.android-maven' // 增加
 apply plugin: 'android-maven'
+apply plugin:'maven'
+//apply plugin: 'com.android.library'
 group='com.github.veargithub'
 
 buildscript {
@@ -27,6 +29,17 @@ allprojects {
     }
 }
 
+//task installArchives(type: Upload) {
+//    description "Installs the artifacts to the local Maven repository."
+//    configuration = configurations['archives']
+//    repositories {
+//        mavenDeployer {
+//            repository url: repositories.mavenLocal().url
+//        }
+//    }
+//}
+
 //task clean(type: Delete) {
 //    delete rootProject.buildDir
 //}
+
