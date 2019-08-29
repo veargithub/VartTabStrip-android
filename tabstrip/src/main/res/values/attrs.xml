@@ -16,5 +16,8 @@
         <attr name="alphaText" format="boolean" />
         <attr name="initAlpha" format="float" />
         <attr name="finalAlpha" format="float" />
+        <attr name="changeTextColor" format="boolean" />
+        <attr name="commonTextColor" format="reference" />
+        <attr name="highlightTextColor" format="reference" />
     </declare-styleable>
 </resources>

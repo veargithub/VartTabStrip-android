@@ -36,10 +36,13 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	private boolean scaleTextSize = false;
 	private int commonTextSize, maxTextSize;
 	private float stripWidthRatio = 1f;//0 to 1,strip的宽度和view的宽度的比值
-	private boolean stripWidthEqualWidthText = false;
-	private boolean alphaText = false;
+	private boolean stripWidthEqualWidthText = false;//strip的宽度是否要和文字的宽度一致
+	private boolean alphaText = false;//是否对文字进行透明度的改变
 	private float initAlpha = 0.5f;
 	private float finalAlpha = 1.0f;
+	private boolean changeTextColor = false;//是否改变文字的颜色
+	private int commonTextColor = 0xFF666666;
+	private int highlightTextColor = 0xFF000000;
 
 
 	public VartSlideStripView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -76,7 +79,10 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 			alphaText = a.getBoolean(R.styleable.VartSlideStripView_alphaText, false);
 			initAlpha = a.getFloat(R.styleable.VartSlideStripView_initAlpha, 0.5f);
 			finalAlpha = a.getFloat(R.styleable.VartSlideStripView_finalAlpha, 1.0f);
-			Log.d(">>>>", "commonTextSize:" + commonTextSize + ", maxTextSize:" + maxTextSize);
+
+			changeTextColor = a.getBoolean(R.styleable.VartSlideStripView_highlightTextColor, false);
+			commonTextColor = a.getColor(R.styleable.VartSlideStripView_commonTextColor, commonTextColor);
+			highlightTextColor = a.getColor(R.styleable.VartSlideStripView_highlightTextColor, highlightTextColor);
 			init();
 		} finally {
 			a.recycle();
@@ -155,21 +161,34 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 				canvas.drawLine(tab.getRight(), separatorPadding, tab.getRight(), height - separatorPadding, dividerPaint);
 			} 
 		}
-		if (scaleTextSize) {
-			if (currentTab instanceof TextView) {
-				TextView tvCur = (TextView) currentTab;
+		if (currentTab instanceof TextView) {
+			TextView tvCur = (TextView) currentTab;
+			if (scaleTextSize) {
 				int currentTextSize = Math.round(maxTextSize - (maxTextSize - commonTextSize) * nextPositionOffset);
-				//Log.d(">>>>", "1: " + tvCur.getTextSize() + ", 2: " + currentTextSize);
 				if (tvCur.getTextSize() != currentTextSize) {
 					tvCur.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize);
 				}
-				if (nextTab instanceof TextView) {
-					TextView tvNext = (TextView) nextTab;
-					float nextTextSize = Math.round ((maxTextSize - commonTextSize) * nextPositionOffset + commonTextSize);
-					//Log.d(">>>>", "current text size:" + currentTextSize + "next text size:" + nextTextSize);
+			}
+			if (changeTextColor) {
+				if (nextPositionOffset < 0.5f) {
+					tvCur.setTextColor(highlightTextColor);
+				} else {
+					tvCur.setTextColor(commonTextColor);
+				}
+			}
+			if (nextTab instanceof TextView) {
+				TextView tvNext = (TextView) nextTab;
+				if (scaleTextSize) {
+					int nextTextSize = Math.round((maxTextSize - commonTextSize) * nextPositionOffset + commonTextSize);
 					if (tvNext.getTextSize() != nextTextSize) {
 						tvNext.setTextSize(TypedValue.COMPLEX_UNIT_PX, nextTextSize);
-						//Log.d(">>>>", "next text size:" + nextTextSize);
+					}
+				}
+				if (changeTextColor) {
+					if (nextPositionOffset < 0.5f) {
+						tvNext.setTextColor(commonTextColor);
+					} else {
+						tvNext.setTextColor(highlightTextColor);
 					}
 				}
 			}
@@ -180,6 +199,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 				nextTab.setAlpha(initAlpha + (finalAlpha - initAlpha) * nextPositionOffset);
 			}
 		}
+
 	}
 	
 	private void initTabsWidth() {
@@ -230,7 +250,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		curTabIndex = arg0;//arg0永远是左边的那个
 		nextPositionOffset = arg1;//arg1是右边那个view的宽度与它的容器宽度的比
 		//nextPositionOffset = 1.0f - nextPositionOffset;
-		Log.d(">>>>", "curTabIndex:" + curTabIndex + ", nextPositionOffset:" + nextPositionOffset);
+//		Log.d(">>>>", "curTabIndex:" + curTabIndex + ", nextPositionOffset:" + nextPositionOffset);
 		invalidate();
 	}
 

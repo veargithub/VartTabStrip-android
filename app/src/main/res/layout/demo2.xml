@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tabStrip="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#00A8FF">
+    android:layout_height="match_parent">
 
     <com.vart.tabstrip.VartSlideStripView
         android:id="@+id/ssv1"
@@ -13,47 +13,55 @@
         android:gravity="center_vertical"
         tabStrip:stripHeight="2dp"
         tabStrip:stripColor="@color/white"
-        tabStrip:scaleTextSize="true"
-        tabStrip:commonTextSize="16dp"
-        tabStrip:maxTextSize="21dp"
-        tabStrip:stripWidthRatio="0.5"
-        tabStrip:alphaText="true"
-        tabStrip:initAlpha="0.6"
-        tabStrip:finalAlpha="1.0"
+
         tabStrip:stripWidthEqualText="true"
-        >
+        tabStrip:changeTextColor="true"
+        tabStrip:commonTextColor="@color/gray"
+        tabStrip:highlightTextColor="@color/orange">
 
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="上海"
-            android:textColor="#FFFFFF"
+            android:text="自选"
+            android:textColor="@color/gray"
             android:textSize="16sp"
-            android:layout_marginStart="28dp"/>
+            android:layout_marginStart="0dp"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="支持支持"
-            android:textColor="#FFFFFF"
+            android:text="市值"
+            android:textColor="@color/gray"
             android:textSize="16sp"
             android:layout_marginStart="10dp" />
         <TextView
             android:layout_width="75dp"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="推荐啊"
-            android:textColor="#FFFFFF"
+            android:text="涨跌幅"
+            android:textColor="@color/gray"
             android:textSize="16sp"
             android:layout_marginStart="10dp"/>
 
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="频道"
-            android:textColor="#FFFFFF"
+            android:text="换手率"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="成交额"
+            android:textColor="@color/gray"
             android:textSize="16sp"
             android:layout_marginStart="10dp"/>
 
