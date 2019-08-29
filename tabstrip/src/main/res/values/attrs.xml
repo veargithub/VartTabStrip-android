@@ -12,6 +12,7 @@
         <attr name="commonTextSize" format="dimension" />
         <attr name="maxTextSize" format="dimension" />
         <attr name="stripWidthRatio" format="float" />
+        <attr name="stripWidthEqualText" format="boolean" />
         <attr name="alphaText" format="boolean" />
         <attr name="initAlpha" format="float" />
         <attr name="finalAlpha" format="float" />

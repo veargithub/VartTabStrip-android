@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -35,6 +36,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	private boolean scaleTextSize = false;
 	private int commonTextSize, maxTextSize;
 	private float stripWidthRatio = 1f;//0 to 1,strip的宽度和view的宽度的比值
+	private boolean stripWidthEqualWidthText = false;
 	private boolean alphaText = false;
 	private float initAlpha = 0.5f;
 	private float finalAlpha = 1.0f;
@@ -70,6 +72,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 			if (stripWidthRatio > 1f || stripWidthRatio <= 0f) {
 				stripWidthRatio = 1f;
 			}
+			stripWidthEqualWidthText = a.getBoolean(R.styleable.VartSlideStripView_stripWidthEqualText, false);
 			alphaText = a.getBoolean(R.styleable.VartSlideStripView_alphaText, false);
 			initAlpha = a.getFloat(R.styleable.VartSlideStripView_initAlpha, 0.5f);
 			finalAlpha = a.getFloat(R.styleable.VartSlideStripView_finalAlpha, 1.0f);
@@ -101,7 +104,6 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		super.onLayout(changed, l, t, r, b);
 		if (alphaText) {
 			for (int i = 0; i < this.getChildCount(); i++) {
-				final int position = i;
 				View tab = this.getChildAt(i);
 				tab.setAlpha(initAlpha);
 			}
@@ -113,28 +115,38 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		super.onDraw(canvas);
 		initTabsWidth();
 		final View currentTab = this.getChildAt(curTabIndex);
-		final int stripWidth = (int) (currentTab.getWidth() );
-		LayoutParams currentTabLayoutParams = (LayoutParams) currentTab.getLayoutParams();
-		final int currentTabMarginRight = currentTabLayoutParams.rightMargin;
-		int nextTabMarginLeft = 0;
-		int widthDiff = 0;
+		final int currentTabWidth =  currentTab.getWidth();
+
+		int currentStripWidth;
+		if (stripWidthEqualWidthText && currentTab instanceof TextView) {
+			currentStripWidth = getTextWidth((TextView) currentTab);
+		} else {
+			currentStripWidth = (int) (currentTabWidth * stripWidthRatio);//左边的strip的宽度
+		}
+		int start = currentTab.getLeft() + (currentTabWidth - currentStripWidth) / 2;//当前strip的起始位置
+		int end, nextStripWidth;
 		View nextTab = null;
 		if (curTabIndex < this.getChildCount() - 1) {
 			nextTab = this.getChildAt(curTabIndex + 1);
-			widthDiff = nextTab.getWidth() - stripWidth;
-			LayoutParams nextTabLayoutParams = (LayoutParams) nextTab.getLayoutParams();
-			nextTabMarginLeft = nextTabLayoutParams.leftMargin;
-
+			final int nextTabWidth = nextTab.getWidth();
+			if (stripWidthEqualWidthText && nextTab instanceof TextView) {
+				nextStripWidth = getTextWidth((TextView) nextTab);
+			} else {
+				nextStripWidth = (int) (nextTabWidth * stripWidthRatio);
+			}
+			end = nextTab.getLeft() + (nextTabWidth - nextStripWidth) / 2;
+		} else {//如果当前的strip是最后一个
+			nextStripWidth = currentStripWidth;
+			end = start + currentStripWidth;
 		}
-		Log.d(">>>>", "diff:" + widthDiff + ", margin right:" + currentTabMarginRight + ", margin left:" + nextTabMarginLeft);
-		int offset = (int)((stripWidth + currentTabMarginRight + nextTabMarginLeft) * nextPositionOffset);//已移动的距离
-		int finalStripWidth = (int) ((stripWidth + widthDiff * nextPositionOffset) * stripWidthRatio);//最终显示的strip的宽度
-		int left = currentTab.getLeft() + offset + (stripWidth - finalStripWidth) / 2;
-		int right = left + finalStripWidth ;
+
+		int s = end - start;//strip在滑动过程中要移动的总距离
+		int left = start + (int) (s * nextPositionOffset);
+		int right = left + currentStripWidth + (int) ((nextStripWidth - currentStripWidth) * nextPositionOffset);
 		int height = this.getHeight();
 		int top = height - stripHeight;
 		int bottom = height;
-		//Log.d(">>>>", left + " " + top + " " + right + " " + bottom + " " + offset);
+//		Log.d(">>>>", left + " " + top + " " + right + " " + bottom + " " + offset);
 		canvas.drawRect(left, top, right, bottom, stripPaint);
 		if (showSeparator) {
 			dividerPaint.setColor(separatorColor);
@@ -146,16 +158,18 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		if (scaleTextSize) {
 			if (currentTab instanceof TextView) {
 				TextView tvCur = (TextView) currentTab;
-				float currentTextSize = maxTextSize - (maxTextSize - commonTextSize) * nextPositionOffset;
+				int currentTextSize = Math.round(maxTextSize - (maxTextSize - commonTextSize) * nextPositionOffset);
+				//Log.d(">>>>", "1: " + tvCur.getTextSize() + ", 2: " + currentTextSize);
 				if (tvCur.getTextSize() != currentTextSize) {
 					tvCur.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize);
 				}
 				if (nextTab instanceof TextView) {
 					TextView tvNext = (TextView) nextTab;
-					float nextTextSize = (maxTextSize - commonTextSize) * nextPositionOffset + commonTextSize;
+					float nextTextSize = Math.round ((maxTextSize - commonTextSize) * nextPositionOffset + commonTextSize);
+					//Log.d(">>>>", "current text size:" + currentTextSize + "next text size:" + nextTextSize);
 					if (tvNext.getTextSize() != nextTextSize) {
 						tvNext.setTextSize(TypedValue.COMPLEX_UNIT_PX, nextTextSize);
-						Log.d(">>>>", "next text size:" + nextTextSize);
+						//Log.d(">>>>", "next text size:" + nextTextSize);
 					}
 				}
 			}
@@ -181,7 +195,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 
 					@Override
 					public void onClick(View v) {
-						Log.d(">>>>", position + "");
+//						Log.d(">>>>", position + "");
 						VartSlideStripView.this.pager.setCurrentItem(position);
 					}
 					
@@ -260,6 +274,12 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	 */
 	public void setShowSeparator(boolean showSeparator) {
 		this.showSeparator = showSeparator;
+	}
+
+	private int getTextWidth(TextView textView) {
+		Rect bounds = new Rect();
+		textView.getPaint().getTextBounds(textView.getText().toString(), 0 , textView.getText().length(), bounds);
+		return bounds.width();
 	}
 	
 }
