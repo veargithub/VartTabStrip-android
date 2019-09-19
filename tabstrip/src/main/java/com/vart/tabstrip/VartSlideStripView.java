@@ -256,7 +256,21 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 
 	@Override
 	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
+		if (changeTextColor) {
+			int count = this.getChildCount();
+			for (int i = 0; i < count; i++) {
+				View tab = this.getChildAt(i);
+				if (tab instanceof TextView) {
+					TextView tvTab = (TextView) tab;
+					if (i == arg0) {
+						tvTab.setTextColor(highlightTextColor);
+					} else {
+						tvTab.setTextColor(commonTextColor);
+					}
+				}
+
+			}
+		}
 		
 	}
 	/**
