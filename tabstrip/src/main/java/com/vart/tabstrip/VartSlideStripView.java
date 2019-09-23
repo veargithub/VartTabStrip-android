@@ -80,7 +80,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 			initAlpha = a.getFloat(R.styleable.VartSlideStripView_initAlpha, 0.5f);
 			finalAlpha = a.getFloat(R.styleable.VartSlideStripView_finalAlpha, 1.0f);
 
-			changeTextColor = a.getBoolean(R.styleable.VartSlideStripView_highlightTextColor, false);
+			changeTextColor = a.getBoolean(R.styleable.VartSlideStripView_changeTextColor, false);
 			commonTextColor = a.getColor(R.styleable.VartSlideStripView_commonTextColor, commonTextColor);
 			highlightTextColor = a.getColor(R.styleable.VartSlideStripView_highlightTextColor, highlightTextColor);
 			init();
@@ -169,13 +169,13 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 					tvCur.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize);
 				}
 			}
-			if (changeTextColor) {
-				if (nextPositionOffset < 0.5f) {
-					tvCur.setTextColor(highlightTextColor);
-				} else {
-					tvCur.setTextColor(commonTextColor);
-				}
-			}
+//			if (changeTextColor) { //todo 有bug，暂时注释掉
+//				if (nextPositionOffset < 0.5f) {
+//					tvCur.setTextColor(highlightTextColor);
+//				} else {
+//					tvCur.setTextColor(commonTextColor);
+//				}
+//			}
 			if (nextTab instanceof TextView) {
 				TextView tvNext = (TextView) nextTab;
 				if (scaleTextSize) {
@@ -184,13 +184,13 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 						tvNext.setTextSize(TypedValue.COMPLEX_UNIT_PX, nextTextSize);
 					}
 				}
-				if (changeTextColor) {
-					if (nextPositionOffset < 0.5f) {
-						tvNext.setTextColor(commonTextColor);
-					} else {
-						tvNext.setTextColor(highlightTextColor);
-					}
-				}
+//				if (changeTextColor) { //todo 有bug，暂时注释掉
+//					if (nextPositionOffset < 0.5f) {
+//						tvNext.setTextColor(commonTextColor);
+//					} else {
+//						tvNext.setTextColor(highlightTextColor);
+//					}
+//				}
 			}
 		}
 		if (alphaText) {
