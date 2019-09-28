@@ -239,9 +239,14 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		}
 	}
 
+	public void setViewPager(ViewPager viewPager, int index) {
+	    setViewPager(viewPager);
+	    onPageSelected(index);
+    }
+
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
+//		Log.d(">>>>", "onPageScrollStateChanged " + arg0);
 		
 	}
 
@@ -249,8 +254,9 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		curTabIndex = arg0;//arg0永远是左边的那个
 		nextPositionOffset = arg1;//arg1是右边那个view的宽度与它的容器宽度的比
-		//nextPositionOffset = 1.0f - nextPositionOffset;
-//		Log.d(">>>>", "curTabIndex:" + curTabIndex + ", nextPositionOffset:" + nextPositionOffset);
+//		if (arg1 == 0 && arg2 == 0) {
+//		    onPageSelected(0);
+//        }
 		invalidate();
 	}
 
@@ -268,10 +274,8 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 						tvTab.setTextColor(commonTextColor);
 					}
 				}
-
 			}
 		}
-		
 	}
 	/**
 	 * ���������Ǹ��ߵĸ߶ȣ���λpx
