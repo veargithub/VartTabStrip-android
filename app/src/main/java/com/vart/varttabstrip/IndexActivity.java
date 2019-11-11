@@ -15,6 +15,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
 
         findViewById(R.id.button1).setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
+        findViewById(R.id.button3).setOnClickListener(this);
+        findViewById(R.id.button4).setOnClickListener(this);
     }
 
     @Override
@@ -27,6 +29,10 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.button2:
                 intent.setClass(this, DemoActivity2.class);
+                startActivity(intent);
+                break;
+            case R.id.button3:
+                intent.setClass(this, DemoActivity3.class);
                 startActivity(intent);
                 break;
         }

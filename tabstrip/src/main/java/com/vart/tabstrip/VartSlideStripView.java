@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	private boolean changeTextColor = false;//是否改变文字的颜色
 	private int commonTextColor = 0xFF666666;
 	private int highlightTextColor = 0xFF000000;
+	private HorizontalScrollView parentHSV;//如果父view是horizontal scroll view, 则这里记录下来
 
 
 	public VartSlideStripView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -108,18 +110,22 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
+		initTabsWidth();
 		if (alphaText) {
 			for (int i = 0; i < this.getChildCount(); i++) {
 				View tab = this.getChildAt(i);
 				tab.setAlpha(initAlpha);
 			}
 		}
+		if (this.getParent() != null && this.getParent() instanceof HorizontalScrollView) {
+			parentHSV = (HorizontalScrollView) this.getParent();
+			Log.d(">>>>", "parent HorizontalScrollView, width:" + parentHSV.getWidth());
+		}
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		initTabsWidth();
 		final View currentTab = this.getChildAt(curTabIndex);
 		final int currentTabWidth =  currentTab.getWidth();
 
@@ -145,15 +151,22 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 			nextStripWidth = currentStripWidth;
 			end = start + currentStripWidth;
 		}
-
+		Log.d(">>>>", "start: " + start + ", end: " + end);
 		int s = end - start;//strip在滑动过程中要移动的总距离
 		int left = start + (int) (s * nextPositionOffset);
 		int right = left + currentStripWidth + (int) ((nextStripWidth - currentStripWidth) * nextPositionOffset);
 		int height = this.getHeight();
 		int top = height - stripHeight;
 		int bottom = height;
-//		Log.d(">>>>", left + " " + top + " " + right + " " + bottom + " " + offset);
+
 		canvas.drawRect(left, top, right, bottom, stripPaint);
+		if (parentHSV != null) {
+			int parentWidth = parentHSV.getWidth();
+			if (parentWidth != this.getWidth()) {
+				int diff2 = left - parentWidth / 2;
+				parentHSV.scrollTo(diff2, 0);//保持strip的left尽可能的在屏幕中间
+			}
+		}
 		if (showSeparator) {
 			dividerPaint.setColor(separatorColor);
 			for (int i = 0; i < this.getChildCount() - 1; i++) {
@@ -317,7 +330,8 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	private int getTextWidth(TextView textView) {
 		Rect bounds = new Rect();
 		textView.getPaint().getTextBounds(textView.getText().toString(), 0 , textView.getText().length(), bounds);
-		return bounds.width();
+		//如果文字宽度大于textview的宽度，则设置strip的宽度等于textview的宽度
+		return bounds.width() > textView.getWidth() ? textView.getWidth() : bounds.width();
 	}
 	
 }
