@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tabStrip="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+    <HorizontalScrollView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:scrollbars="none" android:layout_marginTop="10dp">
+        <com.vart.tabstrip.VartSlideStripView android:id="@+id/ssv1"
+                android:layout_width="match_parent" android:layout_height="44dp"
+                android:orientation="horizontal" android:gravity="center_vertical"
+                tabStrip:stripHeight="1dp" tabStrip:stripColor="@color/blue_12A9FD"
+                tabStrip:scaleTextSize="false" tabStrip:stripWidthRatio="0.5"
+                tabStrip:alphaText="false" tabStrip:changeTextColor="true"
+                tabStrip:commonTextColor="@color/gray_666" tabStrip:highlightTextColor="@color/blue_12A9FD"
+                android:paddingStart="16dp"
+                />
+    </HorizontalScrollView>
+
+    <android.support.v4.view.ViewPager android:id="@+id/viewpager"
+            android:layout_width="match_parent" android:layout_height="match_parent" />
+
+</LinearLayout>

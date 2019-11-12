@@ -35,6 +35,10 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 intent.setClass(this, DemoActivity3.class);
                 startActivity(intent);
                 break;
+            case R.id.button4:
+                intent.setClass(this, DemoActivity4.class);
+                startActivity(intent);
+                break;
         }
     }
 }

@@ -127,6 +127,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		final View currentTab = this.getChildAt(curTabIndex);
+		if (currentTab == null) return;
 		final int currentTabWidth =  currentTab.getWidth();
 
 		int currentStripWidth;
