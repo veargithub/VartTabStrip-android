@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -44,6 +45,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	private boolean changeTextColor = false;//是否改变文字的颜色
 	private int commonTextColor = 0xFF666666;
 	private int highlightTextColor = 0xFF000000;
+	private boolean boldText = false;
 	private HorizontalScrollView parentHSV;//如果父view是horizontal scroll view, 则这里记录下来
 
 
@@ -85,6 +87,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 			changeTextColor = a.getBoolean(R.styleable.VartSlideStripView_changeTextColor, false);
 			commonTextColor = a.getColor(R.styleable.VartSlideStripView_commonTextColor, commonTextColor);
 			highlightTextColor = a.getColor(R.styleable.VartSlideStripView_highlightTextColor, highlightTextColor);
+			boldText = a.getBoolean(R.styleable.VartSlideStripView_boldText, false);
 			init();
 		} finally {
 			a.recycle();
@@ -276,17 +279,18 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 
 	@Override
 	public void onPageSelected(int arg0) {
-		if (changeTextColor) {
-			int count = this.getChildCount();
-			for (int i = 0; i < count; i++) {
-				View tab = this.getChildAt(i);
-				if (tab instanceof TextView) {
-					TextView tvTab = (TextView) tab;
-					if (i == arg0) {
-						tvTab.setTextColor(highlightTextColor);
-					} else {
-						tvTab.setTextColor(commonTextColor);
-					}
+		if (!changeTextColor && !boldText) return;
+		int count = this.getChildCount();
+		for (int i = 0; i < count; i++) {
+			View tab = this.getChildAt(i);
+			if (tab instanceof TextView) {
+				TextView tvTab = (TextView) tab;
+				if (i == arg0) {
+					if (changeTextColor) tvTab.setTextColor(highlightTextColor);
+					if (boldText) tvTab.setTypeface(null, Typeface.BOLD);
+				} else {
+					if (changeTextColor) tvTab.setTextColor(commonTextColor);
+					if (boldText) tvTab.setTypeface(null, Typeface.NORMAL);
 				}
 			}
 		}

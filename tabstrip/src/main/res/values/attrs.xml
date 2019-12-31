@@ -19,5 +19,6 @@
         <attr name="changeTextColor" format="boolean" />
         <attr name="commonTextColor" format="reference" />
         <attr name="highlightTextColor" format="reference" />
+        <attr name="boldText" format="boolean" />
     </declare-styleable>
 </resources>

@@ -21,6 +21,7 @@
         tabStrip:initAlpha="0.6"
         tabStrip:finalAlpha="1.0"
         tabStrip:stripWidthEqualText="true"
+        tabStrip:boldText="true"
         >
 
         <TextView
