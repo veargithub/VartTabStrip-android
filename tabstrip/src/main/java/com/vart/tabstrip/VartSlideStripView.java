@@ -117,7 +117,11 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 		if (alphaText) {
 			for (int i = 0; i < this.getChildCount(); i++) {
 				View tab = this.getChildAt(i);
-				tab.setAlpha(initAlpha);
+				if (i == curTabIndex) {
+					tab.setAlpha(finalAlpha);
+				} else {
+					tab.setAlpha(initAlpha);
+				}
 			}
 		}
 		if (this.getParent() != null && this.getParent() instanceof HorizontalScrollView) {
