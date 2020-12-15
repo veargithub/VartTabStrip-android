@@ -263,6 +263,7 @@ public class VartSlideStripView extends LinearLayout implements OnPageChangeList
 	public void setViewPager(ViewPager viewPager, int index) {
 	    setViewPager(viewPager);
 	    onPageSelected(index);
+		viewPager.setCurrentItem(index);
     }
 
 	@Override

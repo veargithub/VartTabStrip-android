@@ -24,7 +24,7 @@ public class DemoActivity2 extends AppCompatActivity {
         DemoActivity2.MyFragmentAdapter fmAdapter = new DemoActivity2.MyFragmentAdapter(fm);
         pager.setAdapter(fmAdapter);
         ssv1 = findViewById(R.id.ssv1);
-        ssv1.setViewPager(pager, 0);
+        ssv1.setViewPager(pager, 2);
     }
 
     private class MyFragmentAdapter extends FragmentPagerAdapter {
